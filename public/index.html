@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Blog Post Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <script src="script.js"></script>
+    <nav>
+        <button onclick="showPage('homePage')">Anasayfa</button>
+        <button onclick="showPage('myBlogsPage')">Bloglarım</button>
+        <button onclick="showPage('myMoviesPage')">Filmlerim</button>
+        <button onclick="showPage('loginPage')">Login</button>
+        <button onclick="showPage('signupPage')">Signup</button>
+    </nav>
+    
+    <div id="homePage" class="page">
+        <div class="container">
+            <h1>Movie Blog Post Generator</h1>
+            <div class="search-container">
+                <input type="text" id="movieSearch" placeholder="Enter a movie title">
+                <button id="searchButton">Search</button>
+            </div>
+            <div id="result"></div> <!-- ARAMA SONUCU BURADA -->
+        </div>
+    </div>
+        
+    <div id="myBlogsPage" class="page" style="display:none;">
+        <h2>Bloglarım</h2>
+        <div id="blogsList">Henüz blog kaydı yok.</div>
+    </div>
+    
+    <div id="myMoviesPage" class="page" style="display:none;">
+        <h2>Filmlerim</h2>
+        <div id="moviesList">Henüz film kaydı yok.</div>
+    </div>
+    
+    <div id="loginPage" class="page" style="display:none;">
+        <h2>Login</h2>
+        <input type="text" placeholder="Username"><br>
+        <input type="password" placeholder="Password"><br>
+        <button>Login</button>
+    </div>
+    
+    <div id="signupPage" class="page" style="display:none;">
+        <h2>Signup</h2>
+        <input type="text" placeholder="New Username"><br>
+        <input type="password" placeholder="New Password"><br>
+        <button>Signup</button>
+    </div>    
+</body>
+</html>
