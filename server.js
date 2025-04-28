@@ -3,6 +3,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 dotenv.config();
@@ -16,7 +17,10 @@ const OMDB_API_KEY = process.env.OMDB_API_KEY;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+const publicPath = path.join(__dirname, 'public');
+if (fs.existsSync(publicPath)) {
+  app.use(express.static(publicPath));
+}
 
 app.post('/search', async (req, res) => {
   const { movieTitle } = req.body;
