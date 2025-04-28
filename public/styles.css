@@ -1,68 +1,20 @@
+/* Genel ayarlar */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #fdf6e3;
+    /* Açık krem tonu */
+    font-family: 'Courier New', Courier, monospace;
+    /* 90'lar bilgisayar yazı tipi */
+    color: #333;
+    /* Koyu gri yazı */
     margin: 0;
     padding: 0;
+    cursor: default;
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-}
-
-h1 {
-    color: #333;
-}
-
-.search-container {
-    margin-top: 20px;
-}
-
-#movieSearch {
-    padding: 10px;
-    width: 60%;
-    font-size: 16px;
-}
-
-#searchButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-#searchButton:hover {
-    background-color: #45a049;
-}
-
-#result {
-    margin-top: 20px;
-    text-align: left;
-    white-space: pre-wrap;
-}
-
+/* Navigasyon */
 nav {
-    background-color: #333;
-    padding: 10px;
-    text-align: center;
-}
-nav button {
-    margin: 5px;
-    padding: 10px 15px;
-    color: white;
-    background: #555;
-    border: none;
-    cursor: pointer;
-}
-nav button:hover {
-    background: #777;
-}
-nav {
-    background-color: #333;
+    background-color: #8b4513;
+    /* Sıcak toprak kahvesi */
     padding: 10px;
     text-align: center;
     position: fixed;
@@ -71,6 +23,179 @@ nav {
     z-index: 999;
 }
 
-body {
-    padding-top: 60px; /* nav yüksekliği kadar boşluk bırakmak için */
+nav button {
+    background-color: #d2691e;
+    /* Sıcak turuncu */
+    border: 2px solid #8b4513;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s;
+}
+
+nav button:hover {
+    background-color: #b35900;
+    /* Üzerine gelince koyulaşır */
+}
+
+nav button:active {
+    transform: scale(0.95);
+    /* Basınca küçülme efekti */
+}
+
+/* Ana içerik */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 20px 20px;
+    /* Üst boşluk (navbar için) */
+    text-align: center;
+}
+
+/* Arama çubuğu ve butonu */
+.search-container {
+    margin-top: 20px;
+}
+
+#movieSearch {
+    padding: 10px;
+    width: 60%;
+    font-size: 16px;
+    font-family: 'Courier New', Courier, monospace;
+    border: 2px solid #8b4513;
+    background-color: #fffaf0;
+    /* Hafif sıcak beyaz */
+    color: #333;
+}
+
+#searchButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #d2691e;
+    color: white;
+    border: 2px solid #8b4513;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s;
+}
+
+#searchButton:hover {
+    background-color: #b35900;
+}
+
+#searchButton:active {
+    transform: scale(0.95);
+}
+
+/* Arama sonucu */
+#result {
+    margin-top: 20px;
+    text-align: left;
+    white-space: pre-wrap;
+}
+
+/* Filmlerim ve diğer sayfalar */
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+#moviesList,
+#blogsList {
+    padding-top: 20px;
+}
+
+/* Film kartları */
+#moviesList div {
+    position: relative;
+    background-color: #fffaf0;
+    border: 2px solid #d2691e;
+    margin-bottom: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+}
+
+#moviesList div:hover {
+    background-color: #f5deb3;
+}
+
+
+#moviesList img {
+    width: 100px;
+    height: auto;
+    border: 2px solid #8b4513;
+}
+
+/* Film detayları */
+#moviesList h4,
+#moviesList p {
+    margin: 5px 0;
+}
+
+/* Detay göründüğünde */
+#moviesList>div>button {
+    background-color: #b22222;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#moviesList>div>button:hover {
+    background-color: #8b0000;
+}
+
+/* Film detay görünümü */
+#moviesList .movie-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: default;
+}
+
+.movie-details img {
+    max-width: 300px;
+    margin: 20px 0;
+    border: 2px solid #8b4513;
+}
+
+
+/* Film detayında geri dön butonu */
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #d2691e;
+    border: 2px solid #8b4513;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s;
+}
+
+.back-button:hover {
+    background-color: #b35900;
+}
+
+.back-button:active {
+    transform: scale(0.95);
 }

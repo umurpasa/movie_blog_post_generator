@@ -1,14 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const savedPage = localStorage.getItem('currentPage') || 'homePage';
-  const openedMovieIndex = localStorage.getItem('openedMovieIndex');
-  
-  if (savedPage === 'myMoviesPage' && openedMovieIndex !== null) {
-    showPage('myMoviesPage'); // Sayfa görünür olsun
-    showMovieDetails(parseInt(openedMovieIndex));
-  } else {
-    showPage(savedPage);
-  }
-  
+  showPage(savedPage); // sadece kayıtlı sayfayı aç  
 
   const searchButton = document.getElementById('searchButton');
   const movieSearch = document.getElementById('movieSearch');
@@ -25,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const movieTitle = movieSearch.value.trim();
     if (movieTitle) {
       result.innerHTML = 'Searching...';
-      fetch('/search', {
+      fetch('https://movie-blog-post-generator-backend.onrender.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,63 +78,75 @@ document.addEventListener('DOMContentLoaded', function () {
   function loadSavedMovies() {
     const container = document.getElementById('moviesList');
     const saved = JSON.parse(localStorage.getItem('savedMovies') || '[]');
-
+  
     if (saved.length === 0) {
       container.innerHTML = 'Henüz film kaydı yok.';
       return;
     }
-
+  
     container.innerHTML = saved.map((movie, index) => `
-        <div style="display:flex; gap:10px; align-items:center; border-bottom:1px solid #ccc; padding:10px; position:relative;">
-            <img src="${movie.poster}" alt="${movie.title} poster" style="width:100px; cursor:pointer;" onclick="showMovieDetails(${index})">
-            <div style="flex-grow:1; cursor:pointer;" onclick="showMovieDetails(${index})">
-                <h4>${movie.title} (${movie.year})</h4>
-                <p><strong>Yönetmen:</strong> ${movie.director}</p>
-            </div>
-            <button onclick="event.stopPropagation(); deleteSavedMovie(${index})" 
-                    style="position:absolute; top:10px; right:10px;">Sil</button>
-        </div>
+      <div onclick="showMovieDetails(${index})">
+          <img src="${movie.poster}" alt="${movie.title} poster">
+          <div>
+              <h4>${movie.title} (${movie.year})</h4>
+              <p><strong>Yönetmen:</strong> ${movie.director}</p>
+          </div>
+          <button onclick="event.stopPropagation(); deleteSavedMovie(${index})">Sil</button>
+      </div>
     `).join('');
   }
-
+  
   function showPage(id) {
     const pages = document.querySelectorAll('.page');
     pages.forEach(p => p.style.display = 'none');
     document.getElementById(id).style.display = 'block';
-
-    // localStorage'a kaydet
+  
     localStorage.setItem('currentPage', id);
-
+  
     if (id === 'myMoviesPage') loadSavedMovies();
+  
+    // Tarayıcı geçmişine ekle
+    history.pushState({ page: id }, '', `#${id}`);
   }
+  
+  // Tarayıcı geri/ileri tuşuna basınca çalışır
+  window.addEventListener('popstate', (event) => {
+    if (event.state && event.state.page) {
+      showPage(event.state.page);
+    } else {
+      showPage('homePage'); // Eğer geçmiş boşsa anasayfa
+    }
+  });
+  
 
 
   window.showPage = showPage; // Bu satır şart! showPage fonksiyonunu global yapıyor.
 });
 
-window.showMovieDetails = function(index) {
+window.showMovieDetails = function (index) {
   const saved = JSON.parse(localStorage.getItem('savedMovies') || '[]');
   const movie = saved[index];
   const container = document.getElementById('moviesList');
 
-  // Açık olan filmi kaydet
   localStorage.setItem('openedMovieIndex', index);
 
   container.innerHTML = `
-      <div style="text-align:center;">
-          <h2>${movie.title} (${movie.year})</h2>
-          <img src="${movie.poster}" alt="${movie.title} poster" style="max-width:300px; margin:20px 0;">
-          <h3>Yönetmen: ${movie.director}</h3>
-          <h4>Oyuncular: ${movie.actors}</h4>
-          <p><strong>Plot:</strong> ${movie.plot}</p>
-          <h3>Blog Yazısı:</h3>
-          <p style="white-space: pre-wrap;">${movie.blogPost}</p>
-          <button onclick="backToMovies()" style="margin-top:20px;">← Filmlerime Dön</button>
-      </div>
-  `;
+  <div class="movie-details">
+      <h2>${movie.title} (${movie.year})</h2>
+      <img src="${movie.poster}" alt="${movie.title} poster" style="max-width: 300px; height: auto; margin: 20px 0;">
+      <h3>Yönetmen: ${movie.director}</h3>
+      <h4>Oyuncular: ${movie.actors}</h4>
+      <p><strong>Plot:</strong> ${movie.plot}</p>
+      <h3>Blog Yazısı:</h3>
+      <p style="white-space: pre-wrap;">${movie.blogPost}</p>
+      <button class="back-button" onclick="backToMovies()">← Filmlerime Dön</button>
+  </div>
+`;
+
 };
 
-window.backToMovies = function() {
+
+window.backToMovies = function () {
   localStorage.removeItem('openedMovieIndex');
   showPage('myMoviesPage');
 };
