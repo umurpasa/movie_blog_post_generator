@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const movieTitle = movieSearch.value.trim();
     if (movieTitle) {
       result.innerHTML = 'Searching...';
-      fetch('https://movie-blog-post-generator-backend.onrender.com', {
+      fetch('https://movie-blog-post-generator-backend.onrender.com/search', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
